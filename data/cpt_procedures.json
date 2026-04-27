@@ -1,0 +1,349 @@
+[
+  {
+    "id": "CPT_001",
+    "code": "99213",
+    "description": "Office visit, established patient, low-moderate complexity, 20-29 min",
+    "category": "evaluation_management",
+    "aliases": [
+      "office visit low complexity", "outpatient follow-up", "routine cardiology follow-up",
+      "established patient visit", "cardiology follow-up", "oral medication management",
+      "heart failure follow-up low", "AFib management"
+    ],
+    "related_icd10": ["I48.91", "I48.11", "I50.20", "M79.7"],
+    "related_drugs": ["apixaban", "sacubitril-valsartan", "sacubitril", "bisoprolol"],
+    "drug_routes": ["oral"],
+    "confidence_base": 0.93,
+    "typical_specialties": ["cardiology", "general_practice"],
+    "pa_relevant": true,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_002",
+    "code": "99214",
+    "description": "Office visit, established patient, moderate complexity, 30-39 min",
+    "category": "evaluation_management",
+    "aliases": [
+      "office visit moderate complexity", "oncology management visit", "rheumatology visit",
+      "HFrEF management", "established patient moderate", "complex oral therapy management",
+      "targeted therapy monitoring", "SGLT2 inhibitor management", "JAK inhibitor visit"
+    ],
+    "related_icd10": ["C34.10", "C34.11", "M05.79", "I50.20", "E11.9", "G35"],
+    "related_drugs": ["osimertinib", "upadacitinib", "dapagliflozin", "empagliflozin"],
+    "drug_routes": ["oral"],
+    "confidence_base": 0.92,
+    "typical_specialties": ["oncology", "rheumatology", "cardiology", "endocrinology"],
+    "pa_relevant": true,
+    "challenge_tags": ["MULTI_AGENT_HANDOFF"]
+  },
+  {
+    "id": "CPT_003",
+    "code": "99215",
+    "description": "Office visit, established patient, high complexity, 40-54 min",
+    "category": "evaluation_management",
+    "aliases": [
+      "office visit high complexity", "rare disease management", "amyloidosis management",
+      "complex rare disease visit", "high complexity outpatient", "ATTR management",
+      "transthyretin amyloidosis follow-up", "rare cardiomyopathy management"
+    ],
+    "related_icd10": ["E85.4", "E85.82"],
+    "related_drugs": ["tafamidis", "acoramidis"],
+    "drug_routes": ["oral"],
+    "confidence_base": 0.90,
+    "typical_specialties": ["cardiology", "rare_disease"],
+    "pa_relevant": true,
+    "challenge_tags": ["LOW_CONFIDENCE"]
+  },
+  {
+    "id": "CPT_004",
+    "code": "96413",
+    "description": "Chemotherapy administration, intravenous infusion, initial, up to 1 hour",
+    "category": "oncology_infusion",
+    "aliases": [
+      "chemotherapy infusion", "chemo IV infusion", "immunotherapy infusion",
+      "pembrolizumab infusion", "cancer infusion therapy", "IV anti-cancer therapy",
+      "checkpoint inhibitor infusion", "PD-1 inhibitor infusion", "anti-PD-L1 infusion"
+    ],
+    "related_icd10": ["C34.10", "C34.11", "C34.12"],
+    "related_drugs": ["pembrolizumab", "nivolumab", "atezolizumab", "carboplatin"],
+    "drug_routes": ["intravenous", "IV"],
+    "confidence_base": 0.95,
+    "typical_specialties": ["oncology"],
+    "pa_relevant": true,
+    "challenge_tags": ["POLICY_CONFLICT"]
+  },
+  {
+    "id": "CPT_005",
+    "code": "96415",
+    "description": "Chemotherapy administration, intravenous infusion, each additional hour",
+    "category": "oncology_infusion",
+    "aliases": [
+      "chemo additional hour", "extended chemo infusion", "multi-hour chemotherapy",
+      "prolonged cancer infusion"
+    ],
+    "related_icd10": ["C34.10", "C34.11"],
+    "related_drugs": ["pembrolizumab", "carboplatin"],
+    "drug_routes": ["intravenous", "IV"],
+    "confidence_base": 0.88,
+    "typical_specialties": ["oncology"],
+    "pa_relevant": true,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_006",
+    "code": "96365",
+    "description": "Intravenous infusion, therapeutic drug administration, initial, up to 1 hour",
+    "category": "infusion_therapy",
+    "aliases": [
+      "IV infusion therapy", "biologic infusion", "MS infusion therapy",
+      "ocrelizumab infusion", "therapeutic IV infusion", "anti-CD20 infusion",
+      "RRMS infusion treatment", "multiple sclerosis IV treatment"
+    ],
+    "related_icd10": ["G35", "M05.79"],
+    "related_drugs": ["ocrelizumab", "natalizumab", "rituximab"],
+    "drug_routes": ["intravenous", "IV"],
+    "confidence_base": 0.93,
+    "typical_specialties": ["neurology", "rheumatology"],
+    "pa_relevant": true,
+    "challenge_tags": ["MULTI_AGENT_HANDOFF"]
+  },
+  {
+    "id": "CPT_007",
+    "code": "96366",
+    "description": "Intravenous infusion, therapeutic drug administration, each additional hour",
+    "category": "infusion_therapy",
+    "aliases": [
+      "IV infusion additional hour", "extended therapeutic infusion",
+      "biologic infusion extended", "prolonged IV therapy"
+    ],
+    "related_icd10": ["G35"],
+    "related_drugs": ["ocrelizumab"],
+    "drug_routes": ["intravenous"],
+    "confidence_base": 0.87,
+    "typical_specialties": ["neurology"],
+    "pa_relevant": true,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_008",
+    "code": "96372",
+    "description": "Therapeutic, prophylactic, or diagnostic injection; subcutaneous or intramuscular",
+    "category": "injection_therapy",
+    "aliases": [
+      "SC injection", "IM injection", "subcutaneous injection", "GLP-1 injection",
+      "semaglutide injection", "weekly SC injection", "self-administered injection",
+      "injectable diabetes drug", "subcutaneous diabetic medication"
+    ],
+    "related_icd10": ["E11.9", "E11.65", "Z68.41"],
+    "related_drugs": ["semaglutide", "liraglutide", "dulaglutide", "adalimumab", "etanercept"],
+    "drug_routes": ["subcutaneous", "SC", "IM", "injection"],
+    "confidence_base": 0.94,
+    "typical_specialties": ["endocrinology", "general_practice", "rheumatology"],
+    "pa_relevant": true,
+    "challenge_tags": ["FORM_SCHEMA_FAIL"]
+  },
+  {
+    "id": "CPT_009",
+    "code": "93306",
+    "description": "Echocardiography, transthoracic, complete, real-time with 2D imaging",
+    "category": "cardiology_diagnostics",
+    "aliases": [
+      "echocardiogram", "echo", "cardiac ultrasound", "TTE",
+      "transthoracic echocardiogram", "2D echo", "cardiac echo"
+    ],
+    "related_icd10": ["I50.20", "I50.22", "E85.4", "I48.91"],
+    "related_drugs": [],
+    "drug_routes": [],
+    "confidence_base": 0.96,
+    "typical_specialties": ["cardiology"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_010",
+    "code": "93000",
+    "description": "Electrocardiogram, 12-lead, with interpretation and report",
+    "category": "cardiology_diagnostics",
+    "aliases": [
+      "ECG", "EKG", "electrocardiogram", "12-lead ECG", "cardiac rhythm check"
+    ],
+    "related_icd10": ["I48.91", "I48.11", "I50.20"],
+    "related_drugs": ["apixaban"],
+    "drug_routes": [],
+    "confidence_base": 0.97,
+    "typical_specialties": ["cardiology"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_011",
+    "code": "93040",
+    "description": "Rhythm ECG, 1-3 leads, with interpretation and report",
+    "category": "cardiology_diagnostics",
+    "aliases": [
+      "rhythm ECG", "rhythm strip", "Holter review", "AF monitoring",
+      "atrial fibrillation monitoring", "cardiac rhythm strip"
+    ],
+    "related_icd10": ["I48.91", "I48.11"],
+    "related_drugs": ["apixaban"],
+    "drug_routes": [],
+    "confidence_base": 0.91,
+    "typical_specialties": ["cardiology"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_012",
+    "code": "20610",
+    "description": "Arthrocentesis, aspiration and/or injection; major joint or bursa",
+    "category": "rheumatology_procedures",
+    "aliases": [
+      "joint injection", "arthrocentesis", "joint aspiration",
+      "RA joint injection", "corticosteroid joint injection", "major joint procedure"
+    ],
+    "related_icd10": ["M05.79", "M06.00", "M06.09"],
+    "related_drugs": ["methylprednisolone", "triamcinolone"],
+    "drug_routes": ["intra-articular"],
+    "confidence_base": 0.95,
+    "typical_specialties": ["rheumatology"],
+    "pa_relevant": true,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_013",
+    "code": "70553",
+    "description": "MRI brain, without and with contrast material",
+    "category": "neurology_diagnostics",
+    "aliases": [
+      "MRI brain with contrast", "brain MRI gadolinium", "MS brain MRI",
+      "gadolinium brain MRI", "RRMS imaging", "multiple sclerosis MRI"
+    ],
+    "related_icd10": ["G35", "G35.1"],
+    "related_drugs": ["ocrelizumab"],
+    "drug_routes": [],
+    "confidence_base": 0.97,
+    "typical_specialties": ["neurology"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_014",
+    "code": "81455",
+    "description": "Solid organ neoplasm genomic sequence analysis panel (NGS), DNA and RNA",
+    "category": "oncology_diagnostics",
+    "aliases": [
+      "NGS panel", "next generation sequencing", "molecular testing",
+      "genomic panel", "Foundation One CDx", "EGFR mutation testing",
+      "molecular profiling", "tumor genomics panel", "liquid biopsy NGS"
+    ],
+    "related_icd10": ["C34.10", "C34.11", "C34.12"],
+    "related_drugs": ["osimertinib", "pembrolizumab"],
+    "drug_routes": [],
+    "confidence_base": 0.95,
+    "typical_specialties": ["oncology"],
+    "pa_relevant": true,
+    "challenge_tags": ["MULTI_AGENT_HANDOFF"]
+  },
+  {
+    "id": "CPT_015",
+    "code": "83036",
+    "description": "Hemoglobin A1C (glycated hemoglobin) measurement",
+    "category": "laboratory",
+    "aliases": [
+      "HbA1c", "hemoglobin A1c", "glycated hemoglobin", "A1C test",
+      "diabetes glucose control lab"
+    ],
+    "related_icd10": ["E11.9", "E11.65"],
+    "related_drugs": ["semaglutide", "dapagliflozin"],
+    "drug_routes": [],
+    "confidence_base": 0.98,
+    "typical_specialties": ["endocrinology", "general_practice"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_016",
+    "code": "80069",
+    "description": "Renal function panel (BUN, creatinine, eGFR, electrolytes)",
+    "category": "laboratory",
+    "aliases": [
+      "renal panel", "kidney function test", "eGFR lab",
+      "creatinine panel", "CKD monitoring labs", "renal function monitoring"
+    ],
+    "related_icd10": ["I50.20", "E11.65", "N18.3"],
+    "related_drugs": ["dapagliflozin", "apixaban", "sacubitril"],
+    "drug_routes": [],
+    "confidence_base": 0.97,
+    "typical_specialties": ["cardiology", "nephrology"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_017",
+    "code": "86200",
+    "description": "Anti-cyclic citrullinated peptide (anti-CCP) antibody; cyclic citrullinated peptide",
+    "category": "rheumatology_diagnostics",
+    "aliases": [
+      "anti-CCP antibody", "CCP antibody test", "rheumatoid factor panel",
+      "RA serology", "anti-CCP positive", "seropositive RA testing"
+    ],
+    "related_icd10": ["M05.79", "M06.00"],
+    "related_drugs": ["upadacitinib", "adalimumab", "methotrexate"],
+    "drug_routes": [],
+    "confidence_base": 0.96,
+    "typical_specialties": ["rheumatology"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_018",
+    "code": "99242",
+    "description": "Office consultation, new or established patient, straightforward to low complexity",
+    "category": "consultation",
+    "aliases": [
+      "specialist consultation", "pain consultation", "fibromyalgia consultation",
+      "new condition consult", "chronic pain visit", "GP referral consult",
+      "widespread pain consultation", "duloxetine management visit"
+    ],
+    "related_icd10": ["M79.7", "G89.29"],
+    "related_drugs": ["duloxetine", "pregabalin", "gabapentin"],
+    "drug_routes": ["oral"],
+    "confidence_base": 0.89,
+    "typical_specialties": ["general_practice", "pain_management", "rheumatology"],
+    "pa_relevant": true,
+    "challenge_tags": ["LOW_CONFIDENCE", "FORM_SCHEMA_FAIL"]
+  },
+  {
+    "id": "CPT_019",
+    "code": "86580",
+    "description": "Skin test; tuberculosis, intradermal (Mantoux)",
+    "category": "immunology_diagnostics",
+    "aliases": [
+      "TB test", "tuberculin skin test", "Mantoux test",
+      "TB screening before biologic", "Quantiferon TB", "TB screen RA"
+    ],
+    "related_icd10": ["M05.79"],
+    "related_drugs": ["upadacitinib", "adalimumab", "tocilizumab"],
+    "drug_routes": [],
+    "confidence_base": 0.93,
+    "typical_specialties": ["rheumatology", "pulmonology"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  },
+  {
+    "id": "CPT_020",
+    "code": "78300",
+    "description": "Bone and/or joint imaging, whole body technetium-99m pyrophosphate scan",
+    "category": "nuclear_medicine",
+    "aliases": [
+      "PYP scan", "technetium scan", "Tc-99m PYP scan", "nuclear amyloid scan",
+      "bone scintigraphy", "ATTR diagnosis nuclear scan", "pyrophosphate cardiac scan"
+    ],
+    "related_icd10": ["E85.4", "E85.82"],
+    "related_drugs": ["tafamidis"],
+    "drug_routes": [],
+    "confidence_base": 0.92,
+    "typical_specialties": ["cardiology", "nuclear_medicine"],
+    "pa_relevant": false,
+    "challenge_tags": []
+  }
+]

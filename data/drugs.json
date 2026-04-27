@@ -1,0 +1,137 @@
+[
+  {
+    "id": "DR_DAPA",
+    "name": "Dapagliflozin",
+    "brand": "Farxiga",
+    "class": "SGLT2i",
+    "tier": 3,
+    "monthly_cost_usd": 580,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_EMPA",
+    "name": "Empagliflozin",
+    "brand": "Jardiance",
+    "class": "SGLT2i",
+    "tier": 3,
+    "monthly_cost_usd": 590,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_OSIMERTINIB",
+    "name": "Osimertinib",
+    "brand": "Tagrisso",
+    "class": "EGFR TKI",
+    "tier": 5,
+    "monthly_cost_usd": 18500,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_PEMBROLIZUMAB",
+    "name": "Pembrolizumab",
+    "brand": "Keytruda",
+    "class": "PD-1 inhibitor",
+    "tier": 5,
+    "monthly_cost_usd": 15000,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_TRASTUZUMAB",
+    "name": "Trastuzumab",
+    "brand": "Herceptin",
+    "class": "HER2 mAb",
+    "tier": 5,
+    "monthly_cost_usd": 8000,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_ADALIMUMAB",
+    "name": "Adalimumab",
+    "brand": "Humira",
+    "class": "TNF inhibitor",
+    "tier": 4,
+    "monthly_cost_usd": 6200,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_OCRELIZUMAB",
+    "name": "Ocrelizumab",
+    "brand": "Ocrevus",
+    "class": "Anti-CD20",
+    "tier": 5,
+    "monthly_cost_usd": 22000,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_TAFAMIDIS",
+    "name": "Tafamidis",
+    "brand": "Vyndamax",
+    "class": "TTR stabilizer",
+    "tier": 5,
+    "monthly_cost_usd": 21000,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_APIXABAN",
+    "name": "Apixaban",
+    "brand": "Eliquis",
+    "class": "DOAC",
+    "tier": 3,
+    "monthly_cost_usd": 480,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_SACVAL",
+    "name": "Sacubitril-valsartan",
+    "brand": "Entresto",
+    "class": "ARNI",
+    "tier": 4,
+    "monthly_cost_usd": 680,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_FINERENONE",
+    "name": "Finerenone",
+    "brand": "Kerendia",
+    "class": "MRA",
+    "tier": 4,
+    "monthly_cost_usd": 540,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_SEMAGLUTIDE",
+    "name": "Semaglutide",
+    "brand": "Ozempic",
+    "class": "GLP-1 RA",
+    "tier": 3,
+    "monthly_cost_usd": 890,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_UPADACITINIB",
+    "name": "Upadacitinib",
+    "brand": "Rinvoq",
+    "class": "JAK1i",
+    "tier": 4,
+    "monthly_cost_usd": 5400,
+    "requires_pa": true
+  },
+  {
+    "id": "DR_METFORMIN",
+    "name": "Metformin",
+    "brand": "Glucophage",
+    "class": "Biguanide",
+    "tier": 1,
+    "monthly_cost_usd": 12,
+    "requires_pa": false
+  },
+  {
+    "id": "DR_RAMIPRIL",
+    "name": "Ramipril",
+    "brand": "Altace",
+    "class": "ACEi",
+    "tier": 1,
+    "monthly_cost_usd": 18,
+    "requires_pa": false
+  }
+]

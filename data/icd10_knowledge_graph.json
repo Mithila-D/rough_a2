@@ -1,0 +1,321 @@
+[
+  {
+    "id": "ICD_001",
+    "code": "I50.20",
+    "description": "Unspecified systolic heart failure",
+    "aliases": [
+      "HFrEF",
+      "heart failure reduced EF",
+      "systolic HF",
+      "congestive heart failure"
+    ],
+    "category": "cardiology",
+    "billable": true,
+    "confidence_base": 0.95,
+    "related_drugs": [
+      "DR_DAPA",
+      "DR_EMPA",
+      "DR_SACVAL",
+      "DR_BISOPROLOL"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_002",
+    "code": "I10",
+    "description": "Essential hypertension",
+    "aliases": [
+      "hypertension",
+      "HTN",
+      "high blood pressure",
+      "elevated BP"
+    ],
+    "category": "cardiology",
+    "billable": true,
+    "confidence_base": 0.98,
+    "related_drugs": [
+      "DR_RAMIPRIL",
+      "DR_AMLODIPINE",
+      "DR_LOSARTAN"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_003",
+    "code": "I21.3",
+    "description": "ST elevation myocardial infarction of unspecified site",
+    "aliases": [
+      "STEMI",
+      "ST elevation MI",
+      "heart attack"
+    ],
+    "category": "cardiology",
+    "billable": true,
+    "confidence_base": 0.97,
+    "related_drugs": [
+      "DR_ASPIRIN",
+      "DR_CLOPIDOGREL",
+      "DR_TICAGRELOR"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_004",
+    "code": "I48.91",
+    "description": "Unspecified atrial fibrillation",
+    "aliases": [
+      "AFib",
+      "A-fib",
+      "atrial fibrillation",
+      "AF"
+    ],
+    "category": "cardiology",
+    "billable": true,
+    "confidence_base": 0.96,
+    "related_drugs": [
+      "DR_APIXABAN",
+      "DR_RIVAROXABAN",
+      "DR_WARFARIN"
+    ],
+    "challenge_tags": [
+      "AMBIGUOUS_CODE"
+    ]
+  },
+  {
+    "id": "ICD_004B",
+    "code": "I48.11",
+    "description": "Longstanding persistent atrial fibrillation",
+    "aliases": [
+      "persistent AFib",
+      "longstanding AF",
+      "chronic atrial fibrillation"
+    ],
+    "category": "cardiology",
+    "billable": true,
+    "confidence_base": 0.89,
+    "related_drugs": [
+      "DR_APIXABAN",
+      "DR_RIVAROXABAN"
+    ],
+    "challenge_tags": [
+      "AMBIGUOUS_CODE"
+    ],
+    "note": "Requires clinical clarification \u2014 persistent vs paroxysmal changes code"
+  },
+  {
+    "id": "ICD_005",
+    "code": "C34.10",
+    "description": "Malignant neoplasm of upper lobe bronchus and lung",
+    "aliases": [
+      "NSCLC",
+      "non-small cell lung cancer",
+      "lung adenocarcinoma",
+      "lung cancer"
+    ],
+    "category": "oncology",
+    "billable": true,
+    "confidence_base": 0.97,
+    "related_drugs": [
+      "DR_OSIMERTINIB",
+      "DR_PEMBROLIZUMAB",
+      "DR_CARBOPLATIN"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_006",
+    "code": "C50.919",
+    "description": "Malignant neoplasm of unspecified site of unspecified female breast",
+    "aliases": [
+      "breast cancer",
+      "HER2+ breast cancer",
+      "TNBC",
+      "triple negative breast cancer"
+    ],
+    "category": "oncology",
+    "billable": true,
+    "confidence_base": 0.91,
+    "related_drugs": [
+      "DR_TRASTUZUMAB",
+      "DR_PALBOCICLIB",
+      "DR_OLAPARIB"
+    ],
+    "challenge_tags": [
+      "AMBIGUOUS_CODE"
+    ],
+    "note": "HER2+ vs TNBC maps to same base code but different drug approvals"
+  },
+  {
+    "id": "ICD_007",
+    "code": "E11.65",
+    "description": "Type 2 diabetes mellitus with hyperglycemia and chronic kidney disease",
+    "aliases": [
+      "T2DM with CKD",
+      "diabetic nephropathy",
+      "type 2 diabetes CKD"
+    ],
+    "category": "endocrinology",
+    "billable": true,
+    "confidence_base": 0.94,
+    "related_drugs": [
+      "DR_FINERENONE",
+      "DR_DAPAGLIFLOZIN",
+      "DR_SEMAGLUTIDE"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_008",
+    "code": "E11.9",
+    "description": "Type 2 diabetes mellitus without complications",
+    "aliases": [
+      "T2DM",
+      "type 2 diabetes",
+      "diabetes mellitus type 2",
+      "DM2"
+    ],
+    "category": "endocrinology",
+    "billable": true,
+    "confidence_base": 0.97,
+    "related_drugs": [
+      "DR_METFORMIN",
+      "DR_SEMAGLUTIDE",
+      "DR_SITAGLIPTIN"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_009",
+    "code": "M05.79",
+    "description": "Rheumatoid arthritis with rheumatoid factor of multiple sites",
+    "aliases": [
+      "RA",
+      "rheumatoid arthritis",
+      "seropositive RA",
+      "inflammatory arthritis"
+    ],
+    "category": "rheumatology",
+    "billable": true,
+    "confidence_base": 0.95,
+    "related_drugs": [
+      "DR_ADALIMUMAB",
+      "DR_METHOTREXATE",
+      "DR_UPADACITINIB"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_010",
+    "code": "M32.9",
+    "description": "Systemic lupus erythematosus, unspecified",
+    "aliases": [
+      "SLE",
+      "lupus",
+      "systemic lupus"
+    ],
+    "category": "rheumatology",
+    "billable": true,
+    "confidence_base": 0.92,
+    "related_drugs": [
+      "DR_HYDROXYCHLOROQUINE",
+      "DR_BELIMUMAB"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_011",
+    "code": "E85.4",
+    "description": "Organ-limited amyloidosis",
+    "aliases": [
+      "ATTR amyloidosis",
+      "transthyretin amyloidosis",
+      "cardiac amyloidosis"
+    ],
+    "category": "rare_disease",
+    "billable": true,
+    "confidence_base": 0.78,
+    "related_drugs": [
+      "DR_TAFAMIDIS"
+    ],
+    "challenge_tags": [
+      "LOW_CONFIDENCE"
+    ],
+    "note": "Rare \u2014 high risk of miscoding. Agent 2 confidence <0.90 \u2192 SUSPEND"
+  },
+  {
+    "id": "ICD_012",
+    "code": "G35",
+    "description": "Multiple sclerosis",
+    "aliases": [
+      "MS",
+      "multiple sclerosis",
+      "RRMS",
+      "relapsing remitting MS"
+    ],
+    "category": "neurology",
+    "billable": true,
+    "confidence_base": 0.96,
+    "related_drugs": [
+      "DR_OCRELIZUMAB",
+      "DR_NATALIZUMAB"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_013",
+    "code": "J44.1",
+    "description": "Chronic obstructive pulmonary disease with acute exacerbation",
+    "aliases": [
+      "COPD exacerbation",
+      "COPD",
+      "chronic obstructive pulmonary disease"
+    ],
+    "category": "pulmonology",
+    "billable": true,
+    "confidence_base": 0.95,
+    "related_drugs": [
+      "DR_TIOTROPIUM",
+      "DR_BUDESONIDE_FORM"
+    ],
+    "challenge_tags": []
+  },
+  {
+    "id": "ICD_014",
+    "code": "UNKNOWN",
+    "description": "Unknown condition",
+    "aliases": [
+      "fibromylagia",
+      "fibromyalga",
+      "fybromyalgia"
+    ],
+    "category": "rheumatology",
+    "billable": false,
+    "confidence_base": 0.42,
+    "related_drugs": [],
+    "challenge_tags": [
+      "LOW_CONFIDENCE"
+    ],
+    "note": "Misspelled \u2014 confidence will be very low \u2014 triggers SUSPEND + manual review"
+  },
+  {
+    "id": "ICD_015",
+    "code": "M79.3",
+    "description": "Panniculitis, unspecified",
+    "aliases": [
+      "fibromyalgia",
+      "FM",
+      "widespread pain syndrome"
+    ],
+    "category": "rheumatology",
+    "billable": true,
+    "confidence_base": 0.62,
+    "related_drugs": [
+      "DR_DULOXETINE",
+      "DR_PREGABALIN"
+    ],
+    "challenge_tags": [
+      "LOW_CONFIDENCE"
+    ],
+    "note": "Fibromyalgia ICD code is actually M79.7 \u2014 common billing error, confidence reduced"
+  }
+]

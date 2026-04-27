@@ -1,0 +1,282 @@
+[
+  {
+    "id": "POL_001",
+    "title": "BlueStar Health \u2014 SGLT2 Inhibitor Coverage Policy",
+    "insurer": "BlueStar Health",
+    "effective_date": "2024-01-01",
+    "drug_ids": [
+      "DR_DAPA",
+      "DR_EMPA"
+    ],
+    "approved_icd10_codes": [
+      "E11.65",
+      "I50.20",
+      "E11.9"
+    ],
+    "body": "Dapagliflozin and empagliflozin are covered under the BlueStar formulary for the following indications: (1) Type 2 diabetes mellitus (E11.9, E11.65) when HbA1c \u22657.5% documented AND \u22651 trial of metformin for \u22653 months with inadequate glycaemic control. (2) Heart failure with reduced ejection fraction (I50.20) with LVEF \u226440% documented by echocardiogram, regardless of diabetes status. (3) CKD stage 3b or higher (eGFR 25\u201344) with albuminuria. STEP THERAPY REQUIRED for diabetes indication: must have failed metformin (tier 1) first. EXCLUSIONS: eGFR <20 mL/min/1.73m\u00b2 (absolute contraindication). DOCUMENTATION REQUIRED: recent HbA1c, echo report for HF indication, eGFR within 90 days.",
+    "step_therapy_required": true,
+    "documentation_required": [
+      "HbA1c_recent",
+      "echo_if_HF",
+      "eGFR_90days"
+    ],
+    "challenge_tags": [
+      "POLICY_CONFLICT"
+    ],
+    "injected_issue": "Dapagliflozin for NSCLC (C34.10) \u2014 NOT an approved indication \u2192 DENY",
+    "exclusion_rules": []
+  },
+  {
+    "id": "POL_002",
+    "title": "BlueStar Health \u2014 Oncology Biologics Policy: EGFR TKI and PD-1 Inhibitors",
+    "insurer": "BlueStar Health",
+    "effective_date": "2024-01-01",
+    "drug_ids": [
+      "DR_OSIMERTINIB",
+      "DR_PEMBROLIZUMAB"
+    ],
+    "approved_icd10_codes": [
+      "C34.10",
+      "C34.11",
+      "C34.12"
+    ],
+    "body": "Osimertinib (Tagrisso) is approved for NSCLC (ICD-10 C34.xx) when: (1) EGFR exon 19 deletion or exon 21 L858R mutation confirmed by validated molecular testing. (2) Stage IIIB\u2013IV or recurrent disease. (3) Pathology report and molecular testing report must be submitted. Pembrolizumab (Keytruda) for NSCLC: requires PD-L1 TPS \u226550% OR MSI-H confirmed by IHC 22C3. Pembrolizumab is NOT approved for NSCLC if concurrent EGFR sensitizing mutation is present. STEP THERAPY: osimertinib does NOT require prior chemotherapy step for EGFR-mutant NSCLC. DOCUMENTATION: molecular testing report, pathology confirming stage, oncologist attestation.",
+    "step_therapy_required": false,
+    "documentation_required": [
+      "molecular_testing_report",
+      "pathology_stage",
+      "oncologist_attestation"
+    ],
+    "challenge_tags": [
+      "POLICY_CONFLICT"
+    ],
+    "injected_issue": "Pembrolizumab + concurrent EGFR mutation \u2192 policy conflict \u2192 DENY/QUERY",
+    "exclusion_rules": [
+      {
+        "rule_id": "EXCL_PEMBRO_EGFR",
+        "description": "Pembrolizumab (Keytruda) is NOT approved for NSCLC if concurrent EGFR sensitizing mutation is present",
+        "drug_ids": [
+          "DR_PEMBROLIZUMAB"
+        ],
+        "condition": "concurrent_EGFR_mutation",
+        "clinical_keywords": [
+          "EGFR",
+          "egfr exon",
+          "egfr mutation",
+          "egfr deletion",
+          "egfr l858r",
+          "sensitising mutation",
+          "sensitizing mutation"
+        ],
+        "action": "DENY",
+        "reason": "Pembrolizumab is contraindicated in NSCLC with concurrent EGFR sensitizing mutation per POL_002. Standard of care is EGFR TKI (osimertinib)."
+      }
+    ]
+  },
+  {
+    "id": "POL_003",
+    "title": "BlueStar Health \u2014 TNF Inhibitor and JAK Inhibitor Coverage: RA",
+    "insurer": "BlueStar Health",
+    "effective_date": "2024-01-01",
+    "drug_ids": [
+      "DR_ADALIMUMAB",
+      "DR_UPADACITINIB"
+    ],
+    "approved_icd10_codes": [
+      "M05.79",
+      "M05.9",
+      "M06.9"
+    ],
+    "body": "Adalimumab (Humira) is approved for moderate-to-severe rheumatoid arthritis (M05.xx, M06.xx): DAS28 score \u22653.2 documented, AND failure of at least one conventional DMARD (methotrexate \u226515mg/week \u00d7 3 months OR sulfasalazine or hydroxychloroquine). Upadacitinib (Rinvoq) is approved as SECOND-LINE biologic: must have failed \u22651 prior TNF inhibitor. CONTRAINDICATION: upadacitinib NOT approved if active hepatitis B or lymphoma history. Biosimilar step required: adalimumab biosimilar must be tried before branded Humira. DOCUMENTATION REQUIRED: DAS28 score, prior DMARD trial documentation, TB screen negative.",
+    "step_therapy_required": true,
+    "documentation_required": [
+      "DAS28_score",
+      "prior_DMARD_trial",
+      "TB_screen_negative"
+    ],
+    "challenge_tags": [],
+    "injected_issue": "Upadacitinib requested without prior TNF inhibitor trial \u2192 DENY step therapy",
+    "exclusion_rules": [
+      {
+        "rule_id": "EXCL_UPADA_NO_TNF",
+        "description": "Upadacitinib (Rinvoq) requires prior failure of \u22651 TNF inhibitor",
+        "drug_ids": [
+          "DR_UPADACITINIB"
+        ],
+        "condition": "no_prior_TNF_inhibitor",
+        "negation_patterns": [
+          "not\\s+received.{0,80}(adalimumab|etanercept|infliximab|certolizumab|golimumab|tnf)",
+          "has\\s+not.{0,80}(adalimumab|etanercept|infliximab|certolizumab|golimumab|tnf)",
+          "never.{0,50}(adalimumab|etanercept|infliximab|tnf|biologic)",
+          "no\\s+prior\\s+tnf",
+          "no\\s+previous\\s+(tnf|biologic|adalimumab)",
+          "without\\s+prior.{0,40}(tnf|biologic|adalimumab)"
+        ],
+        "positive_prior_keywords": [
+          "failed adalimumab",
+          "failed etanercept",
+          "failed infliximab",
+          "failed certolizumab",
+          "failed golimumab",
+          "prior adalimumab",
+          "prior etanercept",
+          "prior infliximab",
+          "previous adalimumab",
+          "previous etanercept",
+          "inadequate response to adalimumab",
+          "inadequate response to tnf",
+          "tnf inhibitor failure",
+          "tnf failure"
+        ],
+        "action": "DENY",
+        "reason": "Upadacitinib requires documented failure of \u22651 prior TNF inhibitor per step therapy (POL_003). No prior TNF inhibitor use documented in the clinical note."
+      }
+    ]
+  },
+  {
+    "id": "POL_004",
+    "title": "BlueStar Health \u2014 DOAC Coverage Policy: Atrial Fibrillation",
+    "insurer": "BlueStar Health",
+    "effective_date": "2024-01-01",
+    "drug_ids": [
+      "DR_APIXABAN"
+    ],
+    "approved_icd10_codes": [
+      "I48.91",
+      "I48.11",
+      "I48.19",
+      "I48.0"
+    ],
+    "body": "Apixaban (Eliquis) is approved for stroke prevention in non-valvular atrial fibrillation (I48.xx). Approval criteria: CHA\u2082DS\u2082-VASc score \u22652 (males) or \u22653 (females) documented. eGFR must be \u226525 mL/min; if eGFR 25\u201349, dose reduction to 2.5mg BD applies. NOT approved for: mechanical heart valves (warfarin only), antiphospholipid syndrome. STEP THERAPY: warfarin trial NOT required; DOAC is first-line for non-valvular AF. DOCUMENTATION: ECG or Holter confirming AF, CHA\u2082DS\u2082-VASc calculation, eGFR within 90 days.",
+    "step_therapy_required": false,
+    "documentation_required": [
+      "ECG_confirming_AF",
+      "CHA2DS2_VASc",
+      "eGFR_90days"
+    ],
+    "challenge_tags": [
+      "AMBIGUOUS_CODE"
+    ],
+    "injected_issue": "I48.91 (unspecified AFib) triggers code clarification request before approval",
+    "exclusion_rules": []
+  },
+  {
+    "id": "POL_005",
+    "title": "BlueStar Health \u2014 ATTR Amyloidosis: Tafamidis Coverage",
+    "insurer": "BlueStar Health",
+    "effective_date": "2024-01-01",
+    "drug_ids": [
+      "DR_TAFAMIDIS"
+    ],
+    "approved_icd10_codes": [
+      "E85.4",
+      "I43"
+    ],
+    "body": "Tafamidis (Vyndamax/Vyndaqel) is approved for transthyretin (ATTR) cardiac amyloidosis (E85.4). Approval criteria: (1) Confirmed diagnosis: Technetium-99m PYP scan grade 2 or 3, OR endomyocardial biopsy with Congo red positive and TTR immunohistochemistry. (2) Genetic testing to determine hereditary (hATTR) vs wild-type (wtATTR) subtype. (3) NYHA class I\u2013III heart failure. (4) Cardiology specialist (heart failure) attestation required. EXCLUSIONS: NYHA class IV, concurrent use of diflunisal or other TTR stabilisers. Annual re-authorisation required with 6MWT and echocardiographic data.",
+    "step_therapy_required": false,
+    "documentation_required": [
+      "PYP_scan_or_biopsy",
+      "genetic_testing_TTR",
+      "NYHA_class_documented",
+      "cardiology_attestation"
+    ],
+    "challenge_tags": [
+      "LOW_CONFIDENCE"
+    ],
+    "injected_issue": "Rare disease \u2014 ICD-10 confidence <0.90 for ATTR amyloidosis \u2192 SUSPEND",
+    "exclusion_rules": []
+  },
+  {
+    "id": "POL_006",
+    "title": "BlueStar Health \u2014 Anti-CD20 Coverage: Multiple Sclerosis",
+    "insurer": "BlueStar Health",
+    "effective_date": "2024-01-01",
+    "drug_ids": [
+      "DR_OCRELIZUMAB"
+    ],
+    "approved_icd10_codes": [
+      "G35"
+    ],
+    "body": "Ocrelizumab (Ocrevus) is approved for relapsing or primary progressive MS (G35). Criteria: MRI-confirmed diagnosis per McDonald 2017 criteria. Relapsing MS: \u22651 relapse in prior 12 months OR \u22651 new T2/Gd+ lesion on MRI. Primary progressive MS: EDSS 3.0\u20136.5, age \u226455 at treatment initiation. STEP THERAPY: no prior DMT step required for PPMS; for RRMS: interferon beta or glatiramer acetate failure preferred but not mandatory. DOCUMENTATION: MRI confirming diagnosis, neurologist diagnosis letter, hepatitis B serology (CD20 depletion risk), JC antibody index if natalizumab history.",
+    "step_therapy_required": false,
+    "documentation_required": [
+      "MRI_MS_diagnosis",
+      "neurologist_letter",
+      "hepatitis_B_serology"
+    ],
+    "challenge_tags": [],
+    "exclusion_rules": []
+  },
+  {
+    "id": "POL_007",
+    "title": "BlueStar Health \u2014 HF Advanced Therapy: Sacubitril-Valsartan",
+    "insurer": "BlueStar Health",
+    "effective_date": "2024-01-01",
+    "drug_ids": [
+      "DR_SACVAL"
+    ],
+    "approved_icd10_codes": [
+      "I50.20",
+      "I50.22",
+      "I50.32"
+    ],
+    "body": "Sacubitril-valsartan (Entresto) is approved for HFrEF (LVEF \u226440%) or HFmrEF (LVEF 41\u201349%). Criteria: (1) LVEF \u226440% confirmed by echo, (2) NYHA class II\u2013IV, (3) currently on stable ACEI or ARB for \u22654 weeks. WASHOUT PERIOD: 36-hour washout from ACEi required before initiation (angioedema risk). EXCLUSIONS: history of angioedema with ACEi/ARB, bilateral renal artery stenosis, concomitant ACEi use (absolutely contraindicated). DOCUMENTATION: echo LVEF, current medication list, NYHA class.",
+    "step_therapy_required": true,
+    "documentation_required": [
+      "echo_LVEF",
+      "current_medication_list",
+      "NYHA_class"
+    ],
+    "challenge_tags": [
+      "POLICY_CONFLICT"
+    ],
+    "injected_issue": "Patient on concurrent ACEi + Entresto \u2192 policy conflict \u2192 DENY",
+    "exclusion_rules": [
+      {
+        "rule_id": "EXCL_SACVAL_ACEI",
+        "description": "Concomitant ACEi use is absolutely contraindicated with sacubitril-valsartan (angioedema risk)",
+        "drug_ids": [
+          "DR_SACVAL"
+        ],
+        "condition": "concurrent_ACEi",
+        "clinical_keywords": [
+          "ramipril",
+          "lisinopril",
+          "enalapril",
+          "perindopril",
+          "captopril",
+          "trandolapril",
+          "quinapril",
+          "fosinopril",
+          "benazepril",
+          "acei",
+          "ace inhibitor",
+          "angiotensin converting enzyme"
+        ],
+        "action": "DENY",
+        "reason": "Concurrent ACEi use is an absolute contraindication with sacubitril-valsartan (risk of angioedema). A 36-hour washout from ACEi is required before initiation per POL_007."
+      }
+    ]
+  },
+  {
+    "id": "POL_008",
+    "title": "BlueStar Health \u2014 GLP-1 RA Coverage: Semaglutide",
+    "insurer": "BlueStar Health",
+    "effective_date": "2024-01-01",
+    "drug_ids": [
+      "DR_SEMAGLUTIDE"
+    ],
+    "approved_icd10_codes": [
+      "E11.9",
+      "E11.65"
+    ],
+    "body": "Semaglutide (Ozempic) is approved for T2DM glycaemic control and cardiovascular risk reduction. Criteria: HbA1c \u22657.5% documented, AND metformin tried first (\u22653 months unless contraindicated). For cardiovascular risk reduction indication: established ASCVD or CKD stage \u22653. EXCLUSIONS: personal or family history of medullary thyroid carcinoma (MTC), MEN2 syndrome, pancreatitis history. NOT approved for weight loss only without diabetes (separate obesity policy applies). DOCUMENTATION: HbA1c within 90 days, prior metformin trial evidence.",
+    "step_therapy_required": true,
+    "documentation_required": [
+      "HbA1c_90days",
+      "metformin_prior_trial"
+    ],
+    "challenge_tags": [],
+    "exclusion_rules": []
+  }
+]

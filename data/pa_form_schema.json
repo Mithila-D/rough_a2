@@ -1,0 +1,292 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PriorAuthorizationRequest",
+  "type": "object",
+  "required": [
+    "request_id",
+    "timestamp",
+    "patient",
+    "clinical",
+    "coding",
+    "policy_check",
+    "workflow_status",
+    "agent_trace"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "pattern": "^PA-[0-9]{8}-[A-Z0-9]{6}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "patient": {
+      "type": "object",
+      "required": [
+        "member_id",
+        "insurer",
+        "phi_masked"
+      ],
+      "properties": {
+        "member_id": {
+          "type": "string"
+        },
+        "insurer": {
+          "type": "string"
+        },
+        "phi_masked": {
+          "type": "boolean"
+        },
+        "age_band": {
+          "type": "string",
+          "enum": [
+            "18-30",
+            "31-45",
+            "46-60",
+            "61-75",
+            "75+"
+          ]
+        }
+      }
+    },
+    "clinical": {
+      "type": "object",
+      "required": [
+        "condition",
+        "drug_requested",
+        "physician_npi"
+      ],
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "drug_requested": {
+          "type": "string"
+        },
+        "drug_tier": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "physician_npi": {
+          "type": "string"
+        },
+        "supporting_docs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "coding": {
+      "type": "object",
+      "required": [
+        "icd10_code",
+        "icd10_description",
+        "confidence_score",
+        "coding_agent"
+      ],
+      "properties": {
+        "icd10_code": {
+          "type": "string"
+        },
+        "icd10_description": {
+          "type": "string"
+        },
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "coding_agent": {
+          "type": "string"
+        },
+        "ambiguous_codes": {
+          "type": "array"
+        }
+      }
+    },
+    "cpt_coding": {
+      "type": "object",
+      "description": "CPT procedure code prediction from Agent 2.5 — CPT Predictor",
+      "properties": {
+        "primary_cpt_code": {
+          "type": "string",
+          "description": "Primary CPT procedure code or SUSPENDED if confidence < 0.85"
+        },
+        "cpt_description": {
+          "type": "string"
+        },
+        "cpt_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "secondary_cpt_code": {
+          "type": "string",
+          "description": "Secondary CPT code (e.g., additional infusion hours)"
+        },
+        "cpt_candidates": {
+          "type": "array",
+          "description": "Top CPT code candidates with scores"
+        },
+        "cpt_ambiguous": {
+          "type": "boolean",
+          "description": "True when two CPT candidates score within 8% of each other"
+        },
+        "cpt_suspended": {
+          "type": "boolean",
+          "description": "True when CPT confidence < 0.85 — requires human CPT coder review"
+        },
+        "cpt_suspend_reason": {
+          "type": "string"
+        },
+        "cpt_coding_agent": {
+          "type": "string"
+        },
+        "drug_route_inferred": {
+          "type": "string",
+          "enum": ["oral", "intravenous", "subcutaneous", "intramuscular", "unknown"]
+        }
+      }
+    },
+    "policy_check": {
+      "type": "object",
+      "required": [
+        "policy_id",
+        "step_therapy_satisfied",
+        "missing_documentation"
+      ],
+      "properties": {
+        "policy_id": {
+          "type": "string"
+        },
+        "step_therapy_satisfied": {
+          "type": "boolean"
+        },
+        "missing_documentation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "policy_conflicts": {
+          "type": "array"
+        },
+        "rag_chunks_used": {
+          "type": "integer"
+        }
+      }
+    },
+    "hitl_routing": {
+      "type": "object",
+      "description": "Human-in-the-Loop routing — evaluated by HITLRouter after policy check",
+      "properties": {
+        "requires_hitl": {
+          "type": "boolean",
+          "description": "True when at least one HITL trigger fires"
+        },
+        "hitl_triggers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "icd10_low_confidence",
+              "cpt_low_confidence",
+              "icd10_ambiguous",
+              "cpt_ambiguous",
+              "high_cost_drug",
+              "policy_conflict",
+              "missing_critical_docs",
+              "step_therapy_violation"
+            ]
+          }
+        },
+        "hitl_trigger_count": {
+          "type": "integer"
+        },
+        "hitl_priority": {
+          "type": "string",
+          "enum": ["HIGH", "MEDIUM", "LOW", "NONE"],
+          "description": "HIGH=2h SLA, MEDIUM=8h SLA, LOW=24h SLA"
+        },
+        "hitl_queue": {
+          "type": ["string", "null"],
+          "enum": [
+            "MEDICAL_CODER_QUEUE",
+            "CPT_CODER_QUEUE",
+            "CLINICAL_MANAGER_QUEUE",
+            "COMPLIANCE_REVIEW_QUEUE",
+            "CLINICAL_REVIEW_QUEUE",
+            null
+          ]
+        },
+        "hitl_sla_hours": {
+          "type": ["integer", "null"]
+        },
+        "trigger_descriptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "workflow_status": {
+      "type": "object",
+      "required": [
+        "decision",
+        "reason"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "APPROVED",
+            "DENIED",
+            "PEND",
+            "SUSPENDED",
+            "QUERY"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "suspended_reason": {
+          "type": "string"
+        }
+      }
+    },
+    "agent_trace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "agent",
+          "timestamp",
+          "action",
+          "latency_ms"
+        ],
+        "properties": {
+          "agent": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "latency_ms": {
+            "type": "number"
+          },
+          "output_keys": {
+            "type": "array"
+          }
+        }
+      }
+    }
+  }
+}

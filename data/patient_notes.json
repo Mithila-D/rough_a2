@@ -1,0 +1,427 @@
+[
+  {
+    "case_id": "CASE_001",
+    "challenge_tags": [
+      "MULTI_AGENT_HANDOFF"
+    ],
+    "expected_outcome": "APPROVED",
+    "scenario_name": "NSCLC + EGFR mutation — straightforward approval",
+    "raw_note": "\nPatient: Rajesh Kumar, DOB: 15/06/1958, MRN: MH-4421876\nInsurance: BlueStar Health, Member ID: BS-9871234\n\nCLINICAL NOTE — Oncology OPD\nDate: 14 Jan 2025\nPhysician: Dr Ananya Sharma, DM Oncology\n\n62-year-old male, ex-smoker (30 pack-years). Diagnosed with non-small cell lung cancer,\nadenocarcinoma histology, Stage IIIB–IV, right upper lobe. EGFR exon 19 deletion \nconfirmed on Foundation One CDx NGS panel (report attached). PD-L1 TPS 10% (not meeting \nhigh expressors threshold). ECOG performance status 1.\n\nPlan: Initiate osimertinib (Tagrisso) 80mg OD as first-line targeted therapy per FLAURA \ntrial data. No prior systemic therapy.\n\nDocumentation enclosed: pathology report, NGS molecular testing, staging CT chest-abdomen-pelvis.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "DOB",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "Non-Small Cell Lung Cancer",
+      "drug": "Osimertinib",
+      "icd10_code": "C34.10",
+      "confidence": 0.93,
+      "policy_id": "POL_002",
+      "outcome": "APPROVED",
+      "missing_docs": []
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "99214",
+      "cpt_description": "Office visit, established patient, moderate complexity, 30-39 min",
+      "cpt_confidence": 0.856,
+      "cpt_suspended": false,
+      "drug_route": "oral",
+      "rationale": "Oral targeted therapy managed in oncology outpatient setting. ICD-10 C34.10 + osimertinib match."
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["high_cost_drug"],
+      "priority": "MEDIUM",
+      "queue": "CLINICAL_MANAGER_QUEUE",
+      "note": "Osimertinib $18,500/month — first authorisation requires clinical manager sign-off"
+    }
+  },
+  {
+    "case_id": "CASE_002",
+    "challenge_tags": [
+      "AMBIGUOUS_CODE"
+    ],
+    "expected_outcome": "QUERY — clarify paroxysmal vs persistent AF",
+    "scenario_name": "Atrial fibrillation — ambiguous ICD-10 code requires clinical clarification",
+    "raw_note": "\nPatient: Fatima Sheikh, 68F, MRN: KA-7732901\nInsurer: BlueStar Health, Member #: BS-2234567\n\nCardiology OPD — 20 Jan 2025\nDr Suresh Pillai, DM Cardiology\n\n68-year-old female with AF — on rate control with bisoprolol. CHA₂DS₂-VASc score = 4 \n(female, age, HTN, heart failure). eGFR 52 mL/min. Requesting apixaban 2.5mg BD for \nstroke prevention.\n\nNote: patient has had AF episodes documented for 3 years. Recent Holter (7 days) shows \ncontinuous AF — may be persistent/longstanding. Prior ECG showing AF attached.\n\nPlan: Initiate apixaban (Eliquis) 2.5mg BD (dose-reduced for eGFR 52 + age).\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "Atrial Fibrillation",
+      "drug": "Apixaban",
+      "icd10_code": "I48.91 or I48.11 — AMBIGUOUS",
+      "confidence": 0.88,
+      "policy_id": "POL_004",
+      "outcome": "QUERY",
+      "clarification_needed": "Is this paroxysmal (I48.91) or persistent/longstanding (I48.11)? Duration and Holter results determine correct code.",
+      "missing_docs": [
+        "CHA2DS2_VASc_documented"
+      ]
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "99213",
+      "cpt_description": "Office visit, established patient, low-moderate complexity, 20-29 min",
+      "cpt_confidence": 0.865,
+      "cpt_suspended": false,
+      "cpt_ambiguous": true,
+      "ambiguous_with": "99214",
+      "ambiguous_reason": "AFib management complexity depends on visit duration — could qualify as 99213 or 99214",
+      "drug_route": "oral"
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["icd10_ambiguous", "cpt_ambiguous"],
+      "priority": "MEDIUM",
+      "queue": "MEDICAL_CODER_QUEUE",
+      "note": "Ambiguous AFib type (I48.91 vs I48.11); CPT visit level also ambiguous"
+    }
+  },
+  {
+    "case_id": "CASE_003",
+    "challenge_tags": [
+      "LOW_CONFIDENCE"
+    ],
+    "expected_outcome": "SUSPENDED — Agent 2 confidence 0.78 < 0.90",
+    "scenario_name": "ATTR amyloidosis — rare disease, ICD-10 confidence below threshold → workflow suspended",
+    "raw_note": "\nPt: Vinod Rao, 72M, MRN: MH-5543210\nInsurer: BlueStar, Mem: BS-9876001\n\nCardiology — Heart Failure Clinic — 22 Jan 2025\nDr Priya Menon, DM Cardiology (Heart Failure specialist)\n\n72M with progressive exertional dyspnoea over 18 months. Echo: LV hypertrophy, \nLVEF 48%, biventricular thickening. Technetium-99m PYP scan grade 3 uptake. \nTTR gene sequencing: wild-type (non-hereditary form). Diagnosis: wild-type ATTR cardiac \namyloidosis (transthyretin amyloid cardiomyopathy). NYHA class II-III.\n\nRequesting tafamidis (Vyndamax) 61mg OD. Annual authorisation requested.\n\nSupporting docs: PYP scan report, echo, cardiology attestation letter enclosed.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "ATTR Cardiac Amyloidosis",
+      "drug": "Tafamidis",
+      "icd10_code": "E85.4",
+      "confidence": 0.78,
+      "policy_id": "POL_005",
+      "outcome": "SUSPENDED",
+      "suspend_reason": "Agent 2 ICD-10 confidence 0.78 < 0.90 threshold for rare disease. Manual medical coder review required before submission.",
+      "missing_docs": []
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "SUSPENDED",
+      "cpt_description": "CPT prediction suspended — rare disease, confidence 0.837 < 0.85 threshold",
+      "cpt_confidence": 0.837,
+      "cpt_suspended": true,
+      "expected_code_if_reviewed": "99215",
+      "suspend_reason": "ATTR cardiac amyloidosis rare disease mapping yields CPT confidence 0.837 < 0.85. CPT coder review required alongside ICD-10 medical review.",
+      "drug_route": "oral"
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["icd10_low_confidence", "cpt_low_confidence", "high_cost_drug"],
+      "priority": "HIGH",
+      "queue": "MEDICAL_CODER_QUEUE",
+      "note": "Dual suspension (ICD-10 0.78 + CPT 0.837) + tafamidis $22,000/month — 2-hour SLA"
+    }
+  },
+  {
+    "case_id": "CASE_004",
+    "challenge_tags": [
+      "POLICY_CONFLICT"
+    ],
+    "expected_outcome": "DENIED — step therapy not satisfied",
+    "scenario_name": "RA + upadacitinib — JAK inhibitor requested without prior TNF inhibitor trial",
+    "raw_note": "\nPatient: Meera Krishnan, 48F, MRN: TN-2219087\nBlueStar Health Member: BS-3312900\n\nRheumatology OPD — 25 Jan 2025\nDr Arun Nair, DM Rheumatology\n\n48-year-old seropositive RA (RF+, Anti-CCP strongly positive). DAS28-CRP score 5.6 \n(high disease activity). Currently on methotrexate 15mg weekly + hydroxychloroquine \n200mg BD for 6 months with inadequate response.\n\nPlan: escalate to upadacitinib (Rinvoq) 15mg OD. Patient has NOT received prior TNF \ninhibitor therapy (adalimumab, etanercept, etc.).\n\nDocumentation: DAS28 score sheet, methotrexate trial evidence, TB Quantiferon negative.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "Rheumatoid Arthritis",
+      "drug": "Upadacitinib",
+      "icd10_code": "M05.79",
+      "confidence": 0.95,
+      "policy_id": "POL_003",
+      "outcome": "DENIED",
+      "denial_reason": "POL_003 requires prior TNF inhibitor failure before upadacitinib. No prior biologic documented. Step therapy not satisfied.",
+      "missing_docs": [
+        "prior_TNF_inhibitor_trial"
+      ]
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "99214",
+      "cpt_description": "Office visit, established patient, moderate complexity, 30-39 min",
+      "cpt_confidence": 0.856,
+      "cpt_suspended": false,
+      "drug_route": "oral",
+      "rationale": "RA oral JAK inhibitor management. ICD-10 M05.79 + upadacitinib match → 99214."
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["step_therapy_violation"],
+      "priority": "MEDIUM",
+      "queue": "CLINICAL_REVIEW_QUEUE",
+      "note": "JAK inhibitor without prior TNF inhibitor trial — step therapy exception review needed"
+    }
+  },
+  {
+    "case_id": "CASE_005",
+    "challenge_tags": [
+      "MULTI_AGENT_HANDOFF"
+    ],
+    "expected_outcome": "APPROVED",
+    "scenario_name": "HFrEF + dapagliflozin — all criteria met, straightforward approval",
+    "raw_note": "\nPt: Sanjay Patel, 65M, DOB: 12/03/1959, MRN: GJ-8812345\nInsurance: BlueStar Health, ID: BS-5543210\n\nHeart Failure Clinic — 28 Jan 2025\nDr Kavita Rao, DM Cardiology\n\n65-year-old male, HFrEF, LVEF 32% on recent echo (report enclosed). HbA1c 8.1% \n(T2DM inadequately controlled — on metformin 1g BD). eGFR 38 mL/min \n(CKD stage 3b). Previously on metformin for 4 months with ongoing poor glycaemic \ncontrol. NT-proBNP 1640 pg/mL.\n\nRequesting dapagliflozin (Farxiga) 10mg OD for: (1) HFrEF (LVEF ≤40%), \n(2) T2DM with CKD — step therapy satisfied (metformin trial documented).\n\nDocs enclosed: echo, eGFR, HbA1c, metformin prescription history.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "DOB",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "HFrEF + T2DM with CKD",
+      "drug": "Dapagliflozin",
+      "icd10_code": "I50.20",
+      "confidence": 0.95,
+      "policy_id": "POL_001",
+      "outcome": "APPROVED",
+      "missing_docs": []
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "99214",
+      "cpt_description": "Office visit, established patient, moderate complexity, 30-39 min",
+      "cpt_confidence": 0.856,
+      "cpt_suspended": false,
+      "drug_route": "oral",
+      "rationale": "HFrEF + T2DM oral SGLT2i management. ICD-10 I50.20 + dapagliflozin match → 99214."
+    },
+    "expected_hitl": {
+      "requires_hitl": false,
+      "triggers": [],
+      "priority": "NONE",
+      "queue": null,
+      "note": "All criteria met, moderate cost $580/month, no clinical issues — fully automated"
+    }
+  },
+  {
+    "case_id": "CASE_006",
+    "challenge_tags": [
+      "POLICY_CONFLICT",
+      "PHI_LEAK"
+    ],
+    "expected_outcome": "DENIED — policy conflict: pembrolizumab + EGFR mutation",
+    "scenario_name": "NSCLC — pembrolizumab requested despite concurrent EGFR mutation (policy exclusion)",
+    "raw_note": "\nPatient name: Deepa Iyer, 55 years, Female\nDate of Birth: 22/09/1969\nSocial Security Number: 987-65-4321 [SENSITIVE - mask this]\nPhone: 9876543210\nMRN: KA-4433221, BlueStar Member: BS-7712300\n\nOncology — 30 Jan 2025\nDr Ramesh Gupta\n\n55F with stage IV NSCLC (adenocarcinoma). PD-L1 TPS 55% (high). However, NGS panel \nALSO shows EGFR exon 19 deletion (sensitising mutation). Patient and family insistent \non pembrolizumab due to availability. Oncologist uncertain about optimal sequencing.\n\nPlan: requesting pembrolizumab (Keytruda) 200mg q3w + carboplatin.\n\nNote: this combination is NOT standard of care with concurrent EGFR sensitising mutation.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "DOB",
+      "SSN",
+      "phone",
+      "MRN",
+      "member_id"
+    ],
+    "phi_contains_ssn": true,
+    "expected_entities": {
+      "condition": "NSCLC with EGFR mutation",
+      "drug": "Pembrolizumab",
+      "icd10_code": "C34.10",
+      "confidence": 0.93,
+      "policy_id": "POL_002",
+      "outcome": "DENIED",
+      "denial_reason": "POL_002 explicitly excludes pembrolizumab when concurrent EGFR sensitizing mutation is present. Osimertinib is the preferred first-line agent.",
+      "phi_masked": [
+        "SSN",
+        "phone"
+      ],
+      "missing_docs": []
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "96413",
+      "cpt_description": "Chemotherapy administration, IV infusion, initial, up to 1 hour",
+      "cpt_confidence": 0.884,
+      "cpt_suspended": false,
+      "drug_route": "intravenous",
+      "rationale": "NSCLC IV immunotherapy. ICD-10 C34.10 + pembrolizumab + IV route → 96413 chemo infusion."
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["policy_conflict", "high_cost_drug"],
+      "priority": "MEDIUM",
+      "queue": "COMPLIANCE_REVIEW_QUEUE",
+      "note": "EGFR+pembrolizumab policy exclusion triggers compliance review; $15,000/month drug"
+    }
+  },
+  {
+    "case_id": "CASE_007",
+    "challenge_tags": [
+      "POLICY_CONFLICT"
+    ],
+    "expected_outcome": "DENIED — concurrent ACEi contraindication",
+    "scenario_name": "HFrEF + sacubitril-valsartan — concurrent ACEi use violates policy exclusion",
+    "raw_note": "\nPt: Ravi Menon, 70M, MRN: KL-9981234\nBlueStar Member: BS-4421100\n\nHeart Failure Clinic — 1 Feb 2025\n\n70M, HFrEF, LVEF 35%. Currently on ramipril 10mg OD (ACEi), bisoprolol 5mg.\nDoctor requesting addition of sacubitril-valsartan (Entresto) 49/51mg BD.\n\nPlan: start Entresto alongside current ramipril.\n\nNote: washout of ramipril NOT documented. No mention of stopping ramipril.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "HFrEF",
+      "drug": "Sacubitril-valsartan",
+      "icd10_code": "I50.20",
+      "confidence": 0.95,
+      "policy_id": "POL_007",
+      "outcome": "DENIED",
+      "denial_reason": "POL_007 EXCLUSION: concomitant ACEi use with sacubitril-valsartan is absolutely contraindicated (angioedema risk). Ramipril must be stopped with 36-hour washout period before Entresto initiation.",
+      "missing_docs": [
+        "ACEi_washout_documented"
+      ]
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "99213",
+      "cpt_description": "Office visit, established patient, low-moderate complexity, 20-29 min",
+      "cpt_confidence": 0.865,
+      "cpt_suspended": false,
+      "drug_route": "oral",
+      "rationale": "HFrEF oral combination therapy. ICD-10 I50.20 + sacubitril → 99213 cardiology follow-up."
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["policy_conflict"],
+      "priority": "MEDIUM",
+      "queue": "COMPLIANCE_REVIEW_QUEUE",
+      "note": "Concurrent ACEi contraindication — physician education and ACEi washout confirmation required"
+    }
+  },
+  {
+    "case_id": "CASE_008",
+    "challenge_tags": [
+      "MULTI_AGENT_HANDOFF"
+    ],
+    "expected_outcome": "APPROVED",
+    "scenario_name": "RRMS + ocrelizumab — all criteria met",
+    "raw_note": "\nPatient: Sunita Rao, 38F, MRN: MH-3312456\nBlueStar Member: BS-8877001\n\nNeurology OPD — 3 Feb 2025\nDr Vikram Desai, DM Neurology\n\n38F, relapsing-remitting MS (McDonald 2017 criteria, MRI confirmed). 2 relapses in \nprior 12 months. New Gd+ lesion on recent MRI brain. EDSS 2.5. \nNo prior natalizumab. JC antibody positive.\n\nRequesting ocrelizumab (Ocrevus) 300mg IV q2 weeks × 2, then 600mg q6 months.\nHepatitis B surface antigen: negative. Anti-HBc: negative. JC antibody: positive \n(noted — different mechanism than natalizumab, JC risk not applicable).\n\nDocs: MRI report, neurologist diagnosis letter, Hep B serology.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "Relapsing-Remitting Multiple Sclerosis",
+      "drug": "Ocrelizumab",
+      "icd10_code": "G35",
+      "confidence": 0.96,
+      "policy_id": "POL_006",
+      "outcome": "APPROVED",
+      "missing_docs": []
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "96365",
+      "cpt_description": "Intravenous infusion, therapeutic drug administration, initial, up to 1 hour",
+      "cpt_confidence": 0.865,
+      "cpt_suspended": false,
+      "secondary_cpt_code": "96366",
+      "secondary_description": "IV infusion, each additional hour (ocrelizumab total infusion ~3.5 hours)",
+      "drug_route": "intravenous",
+      "rationale": "RRMS IV anti-CD20 biologic. ICD-10 G35 + ocrelizumab + IV route → 96365 therapeutic infusion."
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["high_cost_drug"],
+      "priority": "MEDIUM",
+      "queue": "CLINICAL_MANAGER_QUEUE",
+      "note": "Ocrelizumab $20,000/month — standard high-cost biologic manager approval threshold"
+    }
+  },
+  {
+    "case_id": "CASE_009",
+    "challenge_tags": [
+      "LOW_CONFIDENCE",
+      "FORM_SCHEMA_FAIL"
+    ],
+    "expected_outcome": "SUSPENDED — misspelled condition, confidence 0.42",
+    "scenario_name": "Misspelled diagnosis — Agent 2 cannot map with confidence ≥0.90",
+    "raw_note": "\nPt: Anitha Sharma, 45F, MRN: DL-2287654\nBlueStar Member: BS-1190034\n\nGP Referral — 5 Feb 2025\n\n45F with chronic widespread pain, fatigue, sleep disturbance. Diagnosed with \n\"fibromylagia\" (note: possible spelling variation). On pregabalin 75mg BD \ncurrently. Requesting prior auth for duloxetine 60mg OD.\n\nDAS28 not applicable. Rheumatology review pending.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "fibromylagia (misspelled)",
+      "drug": "Duloxetine",
+      "icd10_code": "UNKNOWN — confidence 0.42",
+      "confidence": 0.42,
+      "policy_id": null,
+      "outcome": "SUSPENDED",
+      "suspend_reason": "Agent 2: Cannot map 'fibromylagia' to ICD-10 code with confidence ≥0.90. Closest match: M79.7 (fibromyalgia) at 0.42 confidence. SUSPEND — manual medical coder review required.",
+      "missing_docs": [
+        "correct_diagnosis_documentation"
+      ]
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "SUSPENDED",
+      "cpt_description": "CPT prediction suspended — misspelled diagnosis, confidence 0.579 < 0.85 threshold",
+      "cpt_confidence": 0.579,
+      "cpt_suspended": true,
+      "expected_code_if_reviewed": "99242",
+      "suspend_reason": "Cannot reliably map CPT for 'fibromylagia'. Drug-only match (duloxetine) yields confidence 0.579 < 0.85. CPT coder review required alongside ICD-10 medical review.",
+      "drug_route": "oral"
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["icd10_low_confidence", "cpt_low_confidence"],
+      "priority": "HIGH",
+      "queue": "MEDICAL_CODER_QUEUE",
+      "note": "Dual suspension from misspelled diagnosis — cannot proceed without human correction"
+    }
+  },
+  {
+    "case_id": "CASE_010",
+    "challenge_tags": [
+      "FORM_SCHEMA_FAIL"
+    ],
+    "expected_outcome": "PEND — missing required documentation",
+    "scenario_name": "T2DM + semaglutide — approval pending missing HbA1c documentation",
+    "raw_note": "\nPt: Kiran Joshi, 52M, MRN: MH-7765432\nBlueStar Health, Mem: BS-2230099\n\nGP OPD — 7 Feb 2025\n\n52M, T2DM on metformin 500mg BD × 2 years. Not well controlled clinically (patient \nreports polydipsia, polyuria). HbA1c — not documented in this note (last result \nreportedly 8.9% some months ago, exact date unknown).\n\nRequest: semaglutide (Ozempic) 0.5mg weekly SC.\n\nNo recent HbA1c report provided with this submission.\n        ",
+    "phi_present": true,
+    "phi_fields": [
+      "patient_name",
+      "MRN",
+      "member_id"
+    ],
+    "expected_entities": {
+      "condition": "Type 2 Diabetes Mellitus",
+      "drug": "Semaglutide",
+      "icd10_code": "E11.9",
+      "confidence": 0.97,
+      "policy_id": "POL_008",
+      "outcome": "PEND",
+      "pend_reason": "HbA1c result within 90 days is required per POL_008. Submitted note references historical result with unspecified date. PA held pending submission of recent HbA1c report.",
+      "missing_docs": [
+        "HbA1c_90days"
+      ]
+    },
+    "expected_cpt": {
+      "primary_cpt_code": "96372",
+      "cpt_description": "Therapeutic, prophylactic, or diagnostic injection; subcutaneous or intramuscular",
+      "cpt_confidence": 0.874,
+      "cpt_suspended": false,
+      "drug_route": "subcutaneous",
+      "rationale": "T2DM SC injectable GLP-1 (semaglutide weekly). ICD-10 E11.9 + semaglutide + SC route → 96372."
+    },
+    "expected_hitl": {
+      "requires_hitl": true,
+      "triggers": ["missing_critical_docs"],
+      "priority": "LOW",
+      "queue": "CLINICAL_REVIEW_QUEUE",
+      "note": "PA held pending HbA1c within 90 days — routine documentation chase, low urgency"
+    }
+  }
+]
