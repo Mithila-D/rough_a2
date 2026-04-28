@@ -1,15 +1,15 @@
 """
-LLM backend — supports Ollama (local Llama 3) with Gemini as fallback.
+LLM backend — Azure OpenAI primary, with optional Ollama/Gemini fallbacks.
 
-Priority:
-  1. Ollama (local, free, no quota)  — set LLM_BACKEND=ollama  (default)
-  2. Gemini                          — set LLM_BACKEND=gemini + GEMINI_API_KEY
+This project uses Azure OpenAI by default. Put your credentials in a .env file
+inside the `.env` folder (or root .env). Supported environment variables:
 
-Ollama setup (one-time, on your machine):
-  1. Install  : https://ollama.com/download
-  2. Pull model: ollama pull llama3
-  3. Start     : ollama serve          (it auto-starts on most installs)
-  The default endpoint is http://localhost:11434 — no key needed.
+    AZURE_OPENAI_KEY            - Azure OpenAI API key
+    AZURE_OPENAI_ENDPOINT       - Azure OpenAI endpoint (https://<your-resource>.openai.azure.com/)
+    AZURE_OPENAI_API_VERSION    - API version (e.g., 2023-05-15) (optional)
+    AZURE_OPENAI_DEPLOYMENT     - Deployment / model name (e.g., gpt-4o-mini)
+
+Fallbacks: set `LLM_BACKEND=ollama` or `LLM_BACKEND=gemini` if needed.
 """
 
 import os
@@ -18,8 +18,18 @@ import re
 from dotenv import load_dotenv
 
 load_dotenv()
+# Also attempt to load .env/.env if present (user keeps creds in .env folder)
+from pathlib import Path
+env_path = Path(__file__).resolve().parents[1] / ".env" / ".env"
+if env_path.exists():
+    load_dotenv(dotenv_path=str(env_path))
 
-BACKEND = os.getenv("LLM_BACKEND", "ollama").lower()
+# Enforce Azure-only deployment for LLMs
+env_backend = os.getenv("LLM_BACKEND")
+if env_backend and env_backend.lower() != "azure":
+    raise RuntimeError("Only Azure OpenAI backend is supported in this deployment. Remove LLM_BACKEND or set it to 'azure'.")
+
+BACKEND = "azure"
 
 
 # ── Shared retry wrapper ──────────────────────────────────────────────────────
@@ -70,12 +80,56 @@ def _build_gemini():
     return _RetryLLM(base, max_retries=4, base_wait=15)
 
 
-# ── Build ─────────────────────────────────────────────────────────────────────
-if BACKEND == "gemini":
-    llm = _build_gemini()
-else:
+# ── Azure OpenAI backend ────────────────────────────────────────────────────
+def _build_azure():
     try:
-        llm = _build_ollama()
+        import openai
     except Exception as e:
-        print(f"[LLM] Ollama unavailable ({e}), falling back to Gemini")
-        llm = _build_gemini()
+        raise RuntimeError("Azure OpenAI support requires the `openai` package") from e
+
+    api_key = os.getenv("AZURE_OPENAI_KEY") or os.getenv("OPENAI_API_KEY")
+    endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+    api_version = os.getenv("AZURE_OPENAI_API_VERSION", None)
+    deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT") or os.getenv("OPENAI_DEPLOYMENT")
+
+    if not api_key or not endpoint or not deployment:
+        raise RuntimeError("Azure OpenAI backend selected but AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, or AZURE_OPENAI_DEPLOYMENT is missing in environment")
+
+    # Configure OpenAI client for Azure
+    openai.api_type = "azure"
+    openai.api_key = api_key
+    openai.api_base = endpoint.rstrip("/")
+    if api_version:
+        openai.api_version = api_version
+
+    class AzureWrapper:
+        def __init__(self, deployment):
+            self.deployment = deployment
+
+        def invoke(self, prompt: str):
+            # Use ChatCompletions for chat-capable deployments
+            resp = openai.ChatCompletion.create(
+                engine=self.deployment,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=1024,
+                temperature=0,
+            )
+            content = resp.choices[0].message.content
+
+            class R:
+                pass
+
+            r = R()
+            r.content = content
+            return r
+
+    base = AzureWrapper(deployment)
+    print(f"[LLM] Using Azure OpenAI deployment={deployment} endpoint={endpoint}")
+    return _RetryLLM(base, max_retries=4, base_wait=10)
+
+
+# ── Build ─────────────────────────────────────────────────────────────────────
+try:
+    llm = _build_azure()
+except Exception as e:
+    raise RuntimeError(f"Failed to initialise Azure OpenAI backend: {e}") from e

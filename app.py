@@ -359,19 +359,16 @@ with st.sidebar:
         st.caption(f"PHI fields: {', '.join(phi_fields)}")
     st.markdown("---")
     st.subheader("🤖 LLM Backend")
-    backend_choice = st.radio("Choose backend", ["Ollama (local Llama 3)", "Gemini (cloud)"], index=0)
-    if "Ollama" in backend_choice:
-        os.environ["LLM_BACKEND"] = "ollama"
-        ollama_model = st.selectbox("Ollama model", ["llama3","llama3.1","llama3.2","mistral","phi3"], index=0)
-        os.environ["OLLAMA_MODEL"] = ollama_model
-        st.info("Make sure `ollama serve` is running.")
-        st.markdown("```bash\nollama pull llama3\nollama serve\n```")
-    else:
-        os.environ["LLM_BACKEND"] = "gemini"
-        gemini_key = st.text_input("GEMINI_API_KEY", type="password", value=os.getenv("GEMINI_API_KEY",""))
-        if gemini_key:
-            os.environ["GEMINI_API_KEY"] = gemini_key
-        st.caption("Uses `gemini-2.0-flash-lite` with auto-retry on 429.")
+        # Azure-only configuration: read creds from .env or system env.
+        os.environ["LLM_BACKEND"] = "azure"
+        st.markdown("Using **Azure OpenAI** as the only LLM backend for this deployment.\n\nPut credentials in `.env/.env` or system environment variables:")
+        st.text("- AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_OPENAI_API_VERSION (optional)")
+        endpoint = os.getenv("AZURE_OPENAI_ENDPOINT", "(not set)")
+        deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT", "(not set)")
+        st.caption(f"Endpoint: {endpoint}")
+        st.caption(f"Deployment: {deployment}")
+        if not os.getenv("AZURE_OPENAI_KEY"):
+            st.warning("AZURE_OPENAI_KEY not found in environment — set it before running the flow.")
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 st.title("🏥 Prior Authorization AI System")

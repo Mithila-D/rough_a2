@@ -1,0 +1,50 @@
+{
+  "case:CASE_001": {
+    "drug": "osimertinib",
+    "duration": "not specified",
+    "conditions": [],
+    "drugs": [],
+    "drugs_requested_with_duration": [],
+    "procedures_needed": [
+      "ngs",
+      "ct",
+      "ngs panel"
+    ],
+    "previous_current_drugs": [],
+    "previous_current_procedures": [
+      "ngs"
+    ],
+    "habits_or_notes": [
+      "smoker"
+    ],
+    "documents_provided": [
+      "pathology report",
+      "report attached"
+    ],
+    "visit_type": "oncology"
+  },
+  "case:manual:b448dddb10c8": {
+    "drug": "osimertinib",
+    "duration": "not specified",
+    "conditions": [],
+    "drugs": [],
+    "drugs_requested_with_duration": [],
+    "procedures_needed": [
+      "ngs",
+      "ct",
+      "ngs panel"
+    ],
+    "previous_current_drugs": [],
+    "previous_current_procedures": [
+      "ngs"
+    ],
+    "habits_or_notes": [
+      "smoker"
+    ],
+    "documents_provided": [
+      "pathology report",
+      "report attached"
+    ],
+    "visit_type": "oncology"
+  }
+}
